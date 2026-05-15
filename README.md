@@ -1,125 +1,246 @@
-# IoT-Based Smart Hydration Tracking System
+# IoT-Based-Automatic-Smart-Water-Level-Management-Bottle
 
-## 🎯 Project Overview
-IoT-enabled hydration monitoring system with ESP8266 microcontroller, ultrasonic sensors, and Firebase cloud integration. Serves 100+ participants with real-time tracking, centralized dashboard, and AI-powered personalized recommendations using time-series forecasting.
+An IoT-inspired smart hydration monitoring system designed to track water levels in a bottle or container using an ultrasonic sensor and microcontroller-based alert mechanism. The system detects minimum, normal, and maximum water levels and provides real-time indication using a buzzer and LED.
 
-## ✅ Key Achievements (Resume Match)
-- **IoT-Enabled Monitor**: ESP8266 + HC-SR04 ultrasonic sensor
-- **Continuous Tracking**: Real-time water level measurement (30s intervals)
-- **100+ Participants**: Scalable centralized dashboard
-- **Firebase Integration**: REST API wireless transmission
-- **Time-Series Forecasting**: ARIMA + Exponential Smoothing models
-- **Personalized Recommendations**: Based on historical intake behaviors
+This project demonstrates embedded systems, sensor interfacing, hardware prototyping, and IoT-oriented system design. It can be extended further with cloud integration, dashboards, and personalized hydration analytics.
 
-## 🛠️ Technologies
-- **Hardware**: ESP8266 (NodeMCU), HC-SR04 Ultrasonic Sensor
-- **Firmware**: Arduino C++ (600+ lines)
-- **Cloud**: Firebase Realtime Database (REST APIs)
-- **Backend**: Python 3.8+ with Firebase Admin SDK
-- **ML**: Statsmodels (ARIMA, Holt-Winters), Pandas, NumPy
-- **Visualization**: Matplotlib, Seaborn
+---
 
-## 📊 System Architecture
-```
-[Water Bottle + Ultrasonic Sensor]
-          ↓
-    [ESP8266 WiFi Module]
-          ↓ REST API (30s intervals)
-    [Firebase Database]
-          ↓
-[Python Dashboard Server]
-          ↓
-[Time-Series Forecasting Engine]
-          ↓
-[Personalized Recommendations]
-          ↓
-[Multi-User Web Dashboard]
-```
+## Project Overview
 
-## 📈 Performance Metrics
-- **Measurement Frequency**: Every 30 seconds
-- **Accuracy**: ±5ml water level detection
-- **Latency**: <100ms sensor to cloud
-- **Uptime**: 99.5%+ device availability
-- **Forecast Accuracy**: 85%+ (7-day predictions)
-- **Users Supported**: 100+ concurrent
+The system uses an ultrasonic sensor to measure the water level inside a container. Based on the measured level, the system triggers visual and audio alerts.
 
-## 🚀 Quick Start
-### Hardware Setup
-1. Connect HC-SR04: TRIG→D1, ECHO→D2
-2. Upload `hydration_tracker_esp8266.ino`
-3. Configure WiFi and Firebase credentials
-4. Mount sensor on water bottle
+### Water Level Behavior
 
-### Dashboard Setup
-```bash
-pip install firebase-admin pandas numpy matplotlib seaborn statsmodels
-python hydration_dashboard.py
-```
+- **Minimum water level:** LED ON and buzzer ON at high frequency
+- **Normal water level:** LED OFF and buzzer OFF
+- **Maximum water level:** LED ON and buzzer ON at low frequency
 
-## 📊 Features
-**ESP8266 Firmware**:
-- ✅ Ultrasonic water level measurement
-- ✅ WiFi connectivity with auto-reconnect
-- ✅ Firebase REST API integration
-- ✅ Drinking event detection (>50ml threshold)
-- ✅ Real-time statistics tracking
-- ✅ Low-power operation
+The project is useful for understanding real-time sensing, microcontroller programming, and alert-based automation systems.
 
-**Dashboard**:
-- ✅ Multi-user support (100+ participants)
-- ✅ Real-time data visualization
-- ✅ Historical pattern analysis
-- ✅ Time-series forecasting (7-day)
-- ✅ Personalized recommendations
-- ✅ Performance metrics tracking
+---
 
-## 🔬 Time-Series Forecasting
-**Models Used**:
-1. **ARIMA (1,1,1)**: Short-term predictions
-2. **Holt-Winters**: Seasonal pattern detection
-3. **Ensemble**: Combined forecast
+## Hardware and Software Components
 
-**Accuracy**: 85%+ for 7-day forecasts
+The project uses basic embedded hardware components along with Arduino IDE for programming and testing.
 
-## 💡 Personalized Recommendations
-Based on:
-- Daily consumption patterns
-- Hourly hydration habits
-- Weekly trends
-- Goal achievement (2L/day target)
-- Consistency scores
+![Hardware and Software Components](assets/components-table.png)
 
-**Example Output**:
-```
-[HIGH] Increase Intake
-  You are drinking 1400ml/day. Increase by 600ml to reach 2L goal.
-  → Action: Set reminders every 2 hours
+### Hardware Requirements
 
-[MEDIUM] Improve Consistency  
-  Your daily intake varies significantly.
-  → Action: Set fixed hydration times
-```
+- Arduino board
+- Ultrasonic sensor
+- Buzzer
+- LED
+- Breadboard
+- Connecting wires
+- Battery pack or USB power source
 
-## Results
+### Software Requirements
 
-<img width="2400" height="1600" alt="image" src="https://github.com/user-attachments/assets/e32f245f-138f-4ee5-9c68-4d9e27526c77" />
+- Arduino IDE
+- Embedded C / Arduino C++
 
-## 📁 Project Files
-1. `hydration_tracker_esp8266.ino` - Arduino firmware (600+ lines)
-2. `hydration_dashboard.py` - Python dashboard (500+ lines)
-3. `README_IOT_HYDRATION.md` - Documentation
-4. Firebase schema & configuration
+---
 
-## 🎓 Skills Demonstrated
-- IoT hardware programming
-- ESP8266 WiFi integration
+## Experimental Setup
+
+The prototype was built using an Arduino board, ultrasonic sensor, buzzer, LED, breadboard, and connecting wires. The ultrasonic sensor was mounted near the container opening to measure the distance between the sensor and the water surface.
+
+![Experimental Setup](assets/experimental-setup.png)
+
+---
+
+## System Architecture
+
+The system follows a simple sensor-to-actuator workflow:
+
+1. The ultrasonic sensor measures the distance from the sensor to the water surface.
+2. The Arduino processes the distance value.
+3. Based on predefined threshold values, the system classifies the water level.
+4. The buzzer and LED are activated according to the detected level.
+
+![System Flow](assets/system-flow.png)
+
+### Architecture Flow
+
+    Battery Pack / USB Power
+            ↓
+    Arduino Board
+            ↓
+    Ultrasonic Sensor
+            ↓
+    Water Level Detection
+            ↓
+    Buzzer and LED Indication
+
+---
+
+## Water Level Indication Logic
+
+The system classifies the water level into three states: minimum, normal, and maximum.
+
+![Water Level Indication Table](assets/water-level-table.png)
+
+| Water Level Condition | Buzzer Status | LED Status |
+|---|---|---|
+| Minimum Level | ON - High Frequency | ON |
+| Normal Level | OFF | OFF |
+| Maximum Level | ON - Low Frequency | ON |
+
+---
+
+## Buzzer and LED Response
+
+The LED and buzzer provide immediate feedback based on the water level condition. The alert mechanism helps identify whether the water level is too low, within the normal range, or too high.
+
+![Buzzer and LED Graph](assets/buzzer-led-graph.png)
+
+---
+
+## Key Features
+
+- Real-time water level detection using ultrasonic sensing
+- Arduino-based embedded system implementation
+- LED indication for minimum and maximum water levels
+- Buzzer alert with different frequency behavior
+- Simple and low-cost hardware prototype
+- Easy to modify threshold values for different containers
+- Suitable for IoT and smart monitoring applications
+
+---
+
+## Working Principle
+
+The ultrasonic sensor sends sound waves toward the water surface and receives the reflected signal. The Arduino calculates the distance using the time taken by the signal to return.
+
+Based on the calculated distance:
+
+- If the water level is below the minimum threshold, the system activates a high-frequency buzzer alert.
+- If the water level is within the desired range, both buzzer and LED remain OFF.
+- If the water level reaches the maximum threshold, the system activates a low-frequency buzzer alert.
+
+---
+
+## Technologies Used
+
+### Hardware
+
+- Arduino
+- Ultrasonic Sensor
+- Buzzer
+- LED
+- Breadboard
+- Connecting Wires
+
+### Software
+
+- Arduino IDE
+- Arduino C/C++
+
+---
+
+## Possible IoT Extension
+
+This project can be extended into a complete IoT-based hydration tracking system by adding:
+
+- ESP8266 or ESP32 Wi-Fi module
+- Firebase Realtime Database
+- Web dashboard for live monitoring
+- User-wise hydration history
+- Time-series analysis of water consumption
+- Personalized hydration reminders
+- Mobile notification system
+
+---
+
+## Future Enhancements
+
+- Add ESP8266/ESP32 for wireless data transmission
+- Store water level readings in Firebase or cloud database
+- Build a web dashboard for real-time visualization
+- Add user authentication for multi-user tracking
+- Implement daily water intake goal tracking
+- Add machine learning-based hydration recommendations
+- Improve enclosure design for practical bottle mounting
+- Add battery optimization for portable usage
+
+---
+
+## Skills Demonstrated
+
+- Embedded systems development
+- Arduino programming
 - Ultrasonic sensor interfacing
-- Firebase cloud integration
-- REST API implementation
-- Time-series forecasting (ARIMA)
-- Machine learning recommendations
-- Multi-user dashboard development
-- Real-time data visualization
+- Circuit design and prototyping
+- Real-time condition monitoring
+- Buzzer and LED control logic
+- Hardware-software integration
+- IoT system design fundamentals
+- Technical documentation
 
-**Total Lines: 1,100+ (Arduino + Python + Config)**
+---
+
+## Project Structure
+
+    IoT-Smart-Hydration-Tracking-System/
+    │
+    ├── README.md
+    ├── code/
+    │   └── hydration_level_monitor.ino
+    │
+    ├── assets/
+    │   ├── components-table.png
+    │   ├── experimental-setup.png
+    │   ├── water-level-table.png
+    │   ├── system-flow.png
+    │   └── buzzer-led-graph.png
+    │
+    └── docs/
+        └── project-report.pdf
+
+---
+
+## How to Run
+
+### 1. Hardware Setup
+
+Connect the ultrasonic sensor, buzzer, and LED to the Arduino board using a breadboard and jumper wires.
+
+Example connection:
+
+    Ultrasonic Sensor VCC  → Arduino 5V
+    Ultrasonic Sensor GND  → Arduino GND
+    Ultrasonic Sensor TRIG → Digital Pin
+    Ultrasonic Sensor ECHO → Digital Pin
+
+    Buzzer Positive → Digital Pin
+    Buzzer Negative → GND
+
+    LED Positive → Digital Pin through resistor
+    LED Negative → GND
+
+### 2. Software Setup
+
+1. Open Arduino IDE.
+2. Connect the Arduino board to the system.
+3. Select the correct board and port.
+4. Upload the Arduino code.
+5. Open Serial Monitor to observe sensor readings.
+
+---
+
+## Applications
+
+- Smart water bottle monitoring
+- Hydration reminder systems
+- Water level alert systems
+- Basic IoT-based health monitoring projects
+- Embedded systems learning project
+- Sensor-based automation prototype
+
+---
+
+## Conclusion
+
+The IoT-Based Smart Hydration Tracking System demonstrates how ultrasonic sensing and microcontroller-based control can be used to monitor water levels and generate real-time alerts. The project provides a strong foundation for building more advanced IoT-enabled hydration monitoring systems with cloud storage, dashboards, and personalized recommendations.
